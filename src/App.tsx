@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import Canvas from './Canvas/Canvas';
 import type { DrawType } from './Canvas/useCanvas';
+import CanvasSketch, { CanvasDrawingProps } from './Canvas/CanvasSketch';
 
 // const draw: DrawType = (ctx, frameCount) => {
 //   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -33,10 +34,31 @@ function App() {
       }
     }
   };
+  const sketch = ({ context, height, width }: CanvasDrawingProps) => {
+    context.fillStyle = '#7999';
+    context.fillRect(0, 0, 600, 600);
+
+    for (let i = 0; i <= 5; i++) {
+      for (let j = 0; j <= 5; j++) {
+        const [w, h, gap] = [50, 50, 20];
+        const x = 100 + (w + gap) * i;
+        const y = 100 + (h + gap) * j;
+        context.beginPath();
+        context.rect(x, y, w, h);
+        context.stroke();
+        if (Math.random() > 0.5) {
+          context.beginPath();
+          context.rect(x + 8, y + 8, w - 16, h - 16);
+          context.stroke();
+        }
+      }
+    }
+  };
 
   return (
     <div className="App">
       <Canvas draw={draw} />
+      <CanvasSketch draw={sketch} />
     </div>
   );
 }

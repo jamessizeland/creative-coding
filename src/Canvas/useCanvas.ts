@@ -1,8 +1,10 @@
 import { useRef, useEffect } from 'react';
 
 export type DrawType = (
-  ctx: CanvasRenderingContext2D,
-  frameCount: number,
+  context: CanvasRenderingContext2D,
+  height?: number,
+  width?: number,
+  frameCount?: number,
 ) => void;
 
 const useCanvas = (draw: DrawType, animate = false) => {

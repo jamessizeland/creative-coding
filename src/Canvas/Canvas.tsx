@@ -7,11 +7,12 @@ interface ICanvasProps
     React.ClassAttributes<HTMLCanvasElement>,
     React.CanvasHTMLAttributes<HTMLCanvasElement> {
   draw: DrawType;
+  animate?: boolean;
 }
 
 const Canvas = (props: ICanvasProps) => {
-  const { draw, ...rest } = props;
-  const canvasRef = useCanvas(draw);
+  const { draw, animate, ...rest } = props;
+  const canvasRef = useCanvas(draw, animate);
 
   return (
     <canvas

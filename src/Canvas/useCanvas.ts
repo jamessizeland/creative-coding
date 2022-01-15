@@ -5,7 +5,7 @@ export type DrawType = (
   frameCount: number,
 ) => void;
 
-const useCanvas = (draw: DrawType) => {
+const useCanvas = (draw: DrawType, animate = false) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -14,19 +14,21 @@ const useCanvas = (draw: DrawType) => {
     let animationFrameId: number;
     if (canvas) {
       const context = canvas.getContext('2d') as CanvasRenderingContext2D;
-
-      const render = () => {
-        frameCount++;
-        draw(context, frameCount);
-        animationFrameId = window.requestAnimationFrame(render);
-      };
-      render();
+      if (animate) {
+        const render = () => {
+          frameCount++;
+          draw(context, frameCount);
+          animationFrameId = window.requestAnimationFrame(render);
+          console.log(frameCount);
+        };
+        render();
+      } else draw(context, frameCount);
     }
 
     return () => {
       window.cancelAnimationFrame(animationFrameId);
     };
-  }, [draw]);
+  }, [draw, animate]);
 
   return canvasRef;
 };
